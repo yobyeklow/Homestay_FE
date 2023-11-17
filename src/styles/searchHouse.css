@@ -1,0 +1,29 @@
+.houseList {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-auto-rows: minmax(min-content, max-content);
+  grid-gap: 40px 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* gap: 30px; */
+  width: 100%;
+  height: calc(100vh - 110px);
+  overflow-y: scroll;
+  margin-top: 20px;
+  padding-right: 20px;
+}
+.houseList::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  border-radius: 2cqb;
+  background-color: #f5f5f5;
+}
+
+.houseList::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f5f5f5;
+}
+
+.houseList::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #dfdfdf;
+}

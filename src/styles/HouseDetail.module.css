@@ -1,0 +1,109 @@
+.houseDetailPage .topBar {
+  max-width: 1120px !important;
+  width: 100% !important;
+}
+.imageLayoutHouse {
+  margin-top: 20px;
+  width: 100%;
+  height: 519px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.imageLayoutHouse .imageItem {
+  position: relative;
+  transition: 0.5s ease-in-out;
+}
+
+.layoutModal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  opacity: 0%;
+  /* transform: translateY(20px); */
+  transition: 0.5s ease-in-out;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.imageItem:hover .layoutModal {
+  opacity: 20%;
+  /* transform: translateX(0); */
+}
+.hostInfo,
+.description,
+.rating,
+.totalPrice {
+  position: relative;
+}
+.hostInfo::after,
+.description::after,
+.rating::after,
+.totalPrice::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #717171;
+  opacity: 30%;
+  bottom: 0;
+}
+.rating::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #717171;
+  opacity: 30%;
+  top: 0;
+}
+.ratingListComment {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  row-gap: 24px;
+}
+.numberGuest {
+  position: relative;
+  padding: 15px 0px;
+}
+.numberGuest::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #717171;
+  opacity: 30%;
+  top: 0;
+}
+.numberGuest::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #717171;
+  opacity: 30%;
+  bottom: 0;
+}
+
+.scrollStyle::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  border-radius: 2cqb;
+  background-color: #f5f5f5;
+}
+
+.scrollStyle::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f5f5f5;
+}
+
+.scrollStyle::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #dfdfdf;
+}

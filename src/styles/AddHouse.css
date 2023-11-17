@@ -1,0 +1,13 @@
+.addRoom .field::after {
+  position: absolute;
+  content: "";
+  width: calc(100% - 20px);
+  height: 1px;
+  background-color: black;
+  opacity: 20%;
+  bottom: 0;
+}
+
+.addRoom .field:last-child::after {
+  height: 0;
+}

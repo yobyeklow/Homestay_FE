@@ -1,0 +1,21 @@
+.mapBox {
+  position: relative;
+  height: calc(100vh - 110px);
+  overflow: hidden;
+  width: 100%;
+}
+.mapBox > .mapboxgl-map > div {
+  background-color: red;
+}
+.mapboxgl-canvas {
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  width: 100%;
+}
+
+.mapBox .mapboxgl-canvas:active {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}

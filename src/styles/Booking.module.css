@@ -1,0 +1,34 @@
+.headerBar {
+  position: relative;
+
+  height: 80px;
+  width: 100%;
+}
+.tripInfo,
+.paymentInfo,
+.policyInfo {
+  position: relative;
+  padding: 32px 0px;
+}
+.tripInfo {
+  padding-top: 0px;
+}
+.houseInfo {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 24px;
+}
+.headerBar::after,
+.tripInfo::after,
+.paymentInfo::after,
+.policyInfo::after,
+.houseInfo::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background-color: rgb(113, 113, 113, 0.25);
+}

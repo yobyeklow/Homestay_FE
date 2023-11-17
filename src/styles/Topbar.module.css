@@ -1,0 +1,45 @@
+.dropDownSign > p,
+.dropDownSign > a > p {
+  cursor: pointer;
+  padding: 16px 12px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #222222;
+}
+.dropDownSign > p:hover,
+.dropDownSign > a > p:hover {
+  background-color: rgb(221, 221, 221, 0.2);
+}
+.lineBreak {
+  display: block;
+  height: 1px;
+  background-color: #dddddd;
+  margin: 8px 0;
+}
+.navLinkList {
+  display: flex;
+  align-items: center;
+}
+.navLinkList > li {
+  font-weight: 600;
+  color: #717171;
+  line-height: 18px;
+  padding: 10px 16px;
+}
+.navLinkList > li:hover {
+  background-color: #f7f7f7;
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 1770px) {
+  .topBar {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+@media screen and (max-width: 1439.9px) {
+  .topBar {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}

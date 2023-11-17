@@ -1,0 +1,14 @@
+.rdrDateRangePickerWrapper {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+}
+.rdrDefinedRangesWrapper {
+  border-top-left-radius: 10px;
+}
+.rdrDateRangeWrapper,
+.rdrCalendarWrapper {
+  border-top-right-radius: 10px;
+}
+.rdrDateDisplayWrapper {
+  border-top-right-radius: 10px;
+}
