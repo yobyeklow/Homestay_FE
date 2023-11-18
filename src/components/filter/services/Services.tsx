@@ -10,19 +10,19 @@ import {
 import React from "react";
 const items = [
   {
-    id: "wifi",
+    id: "Wi-fi",
     label: "Wifi",
   },
   {
-    id: "tivi",
+    id: "TV",
     label: "Tivi",
   },
   {
-    id: "bếp",
+    id: "Bếp",
     label: "Bếp",
   },
   {
-    id: "điều hoà nhiệt độ",
+    id: "Điều hoà nhiệt độ",
     label: "Điều hoà nhiệt độ",
   },
 ] as const;

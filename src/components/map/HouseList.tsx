@@ -20,13 +20,15 @@ const HouseList = ({ houses }: IProps) => {
                   key={house._id}
                   className="houseItem cursor-pointer bg-white w-fit rounded-lg shadow-[rgba(99,_99,_99,_0.2)_0px_2px_8px_0px] max-h-[466px] h-full"
                 >
-                  <Image
-                    src="/house.jpg"
-                    alt="house.png"
-                    width={363}
-                    height={345}
-                    className="object-cover homeItem-Image rounded-lg"
-                  ></Image>
+                  <div className="relative w-[363px] h-[273px]">
+                    <Image
+                      src={house.images[0].url || "/house.jpg"}
+                      alt="house.png"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover homeItem-Image rounded-lg "
+                    ></Image>
+                  </div>
                   <div className="houseItem-Info px-4 py-4 flex justify-between max-w-[363px] w-full">
                     <div className="left text-[15px] leading-5">
                       <h3 className="font-bold mb-3">{house?.title}</h3>

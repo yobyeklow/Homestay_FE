@@ -33,7 +33,6 @@ const AddHousePage = () => {
   const id = useParams();
 
   const schema = yup.object();
-  const [images, setImages] = useState<any>(null);
 
   const form = useForm({
     defaultValues: {
@@ -46,7 +45,7 @@ const AddHousePage = () => {
         images: [],
       },
       locationID: {
-        streetAddress: "Wade Cooper",
+        streetAddress: "",
         city: "",
         zipCode: "900000",
         coordinate: {
@@ -110,7 +109,7 @@ const AddHousePage = () => {
         form.setValue("houseID.costPerNight", response?.houses?.costPerNight);
         form.setValue("locationID", response?.houses.locationID);
         // form.setValue("facilities", response?.houses?.facilityTypeID);
-        // form.setValue("rooms", response?.houses?.rooms);
+        form.setValue("rooms", response?.houses?.rooms);
         form.setValue("calendar", response?.houses?.calenderID);
         setImages(response?.houses?.images);
         // setFacility(response?.houses?.facilityTypeID);
@@ -197,11 +196,12 @@ const AddHousePage = () => {
       facilities: facility,
     };
     const houseID = houseData.houses._id;
-    // console.log(values);
+
     console.log(data);
     mutate({ houseID: houseID, data: data });
   };
-  // console.log(images);
+  const [images, setImages] = useState<any>(houseData?.houses?.images);
+
   if (isLoading) return <Skeleton></Skeleton>;
   return (
     <div className="AddHousePage bg-gray-300 min-h-screen w-full">
@@ -225,7 +225,9 @@ const AddHousePage = () => {
                         Địa chỉ đường
                       </label>
                       <SearchBox
-                        defaultValue=""
+                        defaultValue={form.getValues(
+                          "locationID.streetAddress"
+                        )}
                         onSelectAddress={(
                           address,
                           latitude,
@@ -250,7 +252,11 @@ const AddHousePage = () => {
                       <FormLabel className="text-base font-bold">
                         Khung cảnh ngôi nhà{" "}
                       </FormLabel>
-                      <PreviewImage setImages={setImages}></PreviewImage>
+                      <PreviewImage
+                        imagesUpload={images}
+                        imageBase={houseData?.houses?.images}
+                        setImages={setImages}
+                      ></PreviewImage>
                     </FormItem>
                   )}
                 ></FormField>
@@ -263,7 +269,25 @@ const AddHousePage = () => {
                         Thông tin cơ bản về chỗ ở
                       </FormLabel>
                       <Room
-                        dataRoom={dataRoom}
+                        // dataRoom={dataRoom}
+                        dataRoom={{
+                          numberGuests: houseData?.houses?.numberGuest,
+                          bedCount: houseData?.houses?.bedCount,
+                          room: [
+                            {
+                              _id: houseData?.houses?.roomID[0]?._id,
+                              count: houseData?.houses?.roomID[0]?.count,
+                              name: houseData?.houses?.roomID[0]?.name,
+                              type: houseData?.houses?.roomID[0]?.type,
+                            },
+                            {
+                              _id: houseData?.houses?.roomID[1]?._id,
+                              count: houseData?.houses?.roomID[1]?.count,
+                              name: houseData?.houses?.roomID[1]?.name,
+                              type: houseData?.houses?.roomID[1]?.type,
+                            },
+                          ],
+                        }}
                         setDataRoom={setDataRoom}
                       ></Room>
                     </FormItem>
@@ -361,12 +385,21 @@ const AddHousePage = () => {
                     </FormItem>
                   )}
                 ></FormField>
-                <button
-                  className="px-4 py-3 bg-black text-white rounded-lg mt-4"
-                  type="submit"
-                >
-                  Cập nhật thông tin
-                </button>
+                <div className="flex items-center gap-x-5">
+                  <button
+                    className="px-4 py-3 bg-black text-white rounded-lg mt-4 flex-1 hover:bg-green-500"
+                    type="submit"
+                  >
+                    Cập nhật thông tin
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-3 bg-black text-white rounded-lg mt-4"
+                    onClick={() => router.back()}
+                  >
+                    Huỷ thay đổi
+                  </button>
+                </div>
               </div>
             </div>
           </form>

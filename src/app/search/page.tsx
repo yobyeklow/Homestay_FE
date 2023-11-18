@@ -2,10 +2,9 @@
 import HomeStayItem from "@/components/homestay/HomeStayItem";
 import { IconSearch, IconUser } from "@/components/icons";
 import Topbar from "@/components/layout/Topbar";
-import styles from "@/styles/Home.module.css";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { getCenter } from "geolib";
+import { getCenter, getCenterOfBounds } from "geolib";
 import { DateRangePicker } from "react-date-range";
 import "@/styles/dateRange.css";
 import "@/styles/searchHouse.css";
@@ -108,7 +107,6 @@ export default function SearchPage() {
     return resultString;
   };
   const [secondTime, setSecondTime] = useState(false);
-  const [centerBounds, setCenterBounds] = useState(null);
   const useFilteredHouses = ({
     page,
     limit,
@@ -121,7 +119,7 @@ export default function SearchPage() {
       ["filterHouses"],
       () => {
         setHandle(false);
-        setSecondTime(true);
+
         return filterHouseByInput(
           page,
           limit,
@@ -139,8 +137,8 @@ export default function SearchPage() {
       }
     );
   };
-  const { data: nearHouse } = useQuery<any>(
-    ["house", lastBounds],
+  const { data: nearHouses } = useQuery<any>(
+    ["nearHouses", lastBounds],
     async () => {
       const response = await axios.get(
         `http://localhost:8000/api/house/get-all-near-location?sw[latitude]=${lastBounds.sw.latitude}&sw[longtitude]=${lastBounds.sw.longtitude}&ne[latitude]=${lastBounds.ne.latitude}&ne[longtitude]=${lastBounds.ne.longtitude}`,
@@ -157,6 +155,7 @@ export default function SearchPage() {
       return [];
     },
     {
+      retry: 0,
       cacheTime: 10 * 60 * 1000,
       staleTime: 5 * 60 * 1000,
       enabled: secondTime,
@@ -174,7 +173,7 @@ export default function SearchPage() {
     dateTo: convertDate(filter.endDate.toISOString()),
     numberGuest: filter.numberOfGuests,
   });
-  const { data: NearHouse } = useQuery(["filterHouse"]);
+
   const HandleFilter = () => {
     setFilter({
       ...filter,
@@ -195,11 +194,12 @@ export default function SearchPage() {
     };
   });
 
-  const centerLocation = getCenter(lastLocationList);
-  console.log(locationList);
-  console.log(lastLocationList);
   const lastData = useLastData(filterResult);
+  const lastDataNearHouse = useLastData(nearHouses);
   if (isLoading) return <Skeleton></Skeleton>;
+  const centerLocation = getCenterOfBounds(lastLocationList);
+  // console.log(centerLocation);
+  // console.log(getCenterOfBounds(lastLocationList));
   return (
     <div className="homePage relative">
       <Topbar className="mx-6">
@@ -273,17 +273,35 @@ export default function SearchPage() {
               </span>
             </div>
             <div className="houseList">
-              {lastData?.houses?.map((house: any) => (
-                <HomeStayItem key={house._id} house={house}></HomeStayItem>
-              ))}
+              {!lastDataNearHouse &&
+                lastData &&
+                lastData?.houses?.map((house: any) => (
+                  <HomeStayItem key={house._id} house={house}></HomeStayItem>
+                ))}
+              {lastDataNearHouse &&
+                lastData &&
+                lastDataNearHouse?.houses?.map((house: any) => (
+                  <HomeStayItem key={house._id} house={house}></HomeStayItem>
+                ))}
             </div>
           </div>
           <div className="col-span-1">
-            <Map
-              setDataBounds={setDataBounds}
-              location={centerLocation}
-              data={lastData?.houses}
-            ></Map>
+            {!lastDataNearHouse && lastData && (
+              <Map
+                setDataBounds={setDataBounds}
+                location={centerLocation}
+                data={lastData?.houses}
+                setSecondTime={setSecondTime}
+              ></Map>
+            )}
+            {lastDataNearHouse && lastData && (
+              <Map
+                setDataBounds={setDataBounds}
+                location={centerLocation}
+                data={lastDataNearHouse?.houses}
+                setSecondTime={setSecondTime}
+              ></Map>
+            )}
           </div>
         </div>
       </main>

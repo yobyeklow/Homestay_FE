@@ -5,15 +5,47 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface IProps {
   setImages: React.Dispatch<React.SetStateAction<any>>;
+  imageBase?: any;
+  imagesUpload?: any;
 }
-const ImageComponent = ({ setImages }: IProps) => {
-  const [imagesData, setImagesData] = useState<any>("");
+const ImageComponent = ({ imageBase, imagesUpload, setImages }: IProps) => {
+  const [imagesData, setImagesData] = useState<any>(imageBase);
+  const [uploadData, setUploadData] = useState<any>(imagesUpload);
   const imageInput = useRef(null);
   useEffect(() => {
     return () => {
       imagesData && URL.revokeObjectURL(imagesData);
     };
   }, [imagesData]);
+  const addImage = (images: any, e: any) => {
+    if (images.length <= 5) {
+      images.forEach((image: any) => {
+        setImagesData((prevImagesData: any) => [...prevImagesData, image]);
+      });
+      const filesArray = [];
+      if (e.length > 1) {
+        for (let i = 0; i < e.length; i++) {
+          filesArray.push(e[i]);
+        }
+        filesArray.forEach((image: any) => {
+          setImages((prevImagesData: any) => [...prevImagesData, image]);
+        });
+      } else {
+        setImages(e);
+      }
+    }
+    // setImages((prevImagesData: any) => [...prevImagesData, image]);
+  };
+  const removeImage = (index: any, itemFile: any) => {
+    const newArr = [...imagesData];
+    const newUploadArr = [...uploadData];
+    const resultUpload = newUploadArr.filter((item) => item != itemFile);
+    newArr.splice(index, 1);
+    setImagesData(newArr);
+
+    setImages(resultUpload);
+  };
+  useEffect(() => {}, [imagesData]);
   return (
     <div className="w-full p-3 flex justify-center flex-col items-center h-[400px] border-[1px] border-gray-300 rounded-lg bg-white">
       <input
@@ -25,8 +57,7 @@ const ImageComponent = ({ setImages }: IProps) => {
         className="hidden"
         onChange={(e) => {
           const images = PreviewImage(e);
-          setImagesData(images);
-          setImages(e.target.files);
+          addImage(images, e.target.files);
         }}
       />
       <div
@@ -43,10 +74,16 @@ const ImageComponent = ({ setImages }: IProps) => {
               <div key={index} className="max-w-[120px] w-full h-full relative">
                 <Image
                   fill
-                  src={image}
+                  src={image.url || image}
                   alt="houseImage.png"
                   className="object-cover absolute"
                 ></Image>
+                <span
+                  onClick={() => removeImage(index, image)}
+                  className="absolute font-bold px-2 py-1 text-xs translate-x-3 cursor-pointer -translate-y-2 rounded-full top-0 right-0 bg-white"
+                >
+                  X
+                </span>
               </div>
             );
           })}

@@ -16,7 +16,10 @@ const HomeStayItem = ({ house }: THomeProps) => {
         <div className="homeStayItem cursor-pointer w-full">
           <div className="homeStayImage relative bg-[#dddddd] w-full h-[260px] rounded-xl">
             <Image
-              src="https://a0.muscache.com/im/pictures/a286b2b4-e466-4932-bb56-811a7576d77d.jpg?im_w=720"
+              src={
+                house.images[0].url ||
+                `https://a0.muscache.com/im/pictures/a286b2b4-e466-4932-bb56-811a7576d77d.jpg?im_w=720`
+              }
               alt="homestay.jpg"
               fill
               className="object-cover rounded-xl"

@@ -45,6 +45,8 @@ export const filterHouseByFilter = async (
   const response = await axios.get<any>(
     `/api/house/filter/${page}/${limit}?bedCount=${
       bedCount ? bedCount : ""
+    }&countBedRoom=${bedRoom ? bedRoom : ""}&countBathRoom=${
+      bathRoom ? bathRoom : ""
     }&facilities=${facilities ? facilities : ""}&minPrice=${
       minPrice ? minPrice : ""
     }&maxPrice=${maxPrice ? maxPrice : ""}`

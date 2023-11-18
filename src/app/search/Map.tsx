@@ -15,6 +15,7 @@ interface IProps {
   data: any;
   location: any;
   setDataBounds: any;
+  setSecondTime: any;
 }
 const config = { style: "currency", currency: "VND", maximumFractionDigits: 9 };
 type BoundsArray = [[number, number], [number, number]];
@@ -31,10 +32,10 @@ const parseBounds = (boundsString: string) => {
     },
   };
 };
-const ViewMap = ({ data, setDataBounds, location }: IProps) => {
+const ViewMap = ({ data, setDataBounds, location, setSecondTime }: IProps) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const [viewport, setViewPort] = useLocalState<any>("ViewportSearch", {
+  const [viewport, setViewPort] = useState({
     latitude: location.latitude,
     longitude: location.longitude,
     width: "100%",
@@ -89,14 +90,17 @@ const ViewMap = ({ data, setDataBounds, location }: IProps) => {
           if (mapRef.current) {
             const bounds = mapRef.current.getMap().getBounds();
             setDataBounds(JSON.stringify(bounds.toArray()));
+            setSecondTime(true);
           }
         }}
         onZoomEnd={() => {
           const bounds = mapRef.current.getMap().getBounds();
           setDataBounds(JSON.stringify(bounds.toArray()));
+          setSecondTime(true);
         }}
         onMove={(evt) => {
           setViewPort(evt.viewState);
+          setSecondTime(true);
         }}
         ref={(instance) => (mapRef.current = instance)}
         minZoom={5}
@@ -105,6 +109,7 @@ const ViewMap = ({ data, setDataBounds, location }: IProps) => {
           if (mapRef.current) {
             const bounds = mapRef.current.getMap().getBounds();
             setDataBounds(JSON.stringify(bounds.toArray()));
+            setSecondTime(true);
           }
         }}
       >

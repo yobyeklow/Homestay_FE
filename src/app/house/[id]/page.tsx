@@ -41,7 +41,7 @@ const HouseDetailPage = () => {
       staleTime: 5 * 60 * 1000,
     }
   );
-  console.log(house);
+
   if (isLoading) return <Skeleton></Skeleton>;
   return (
     <div className={`${styles.houseDetailPage}`}>

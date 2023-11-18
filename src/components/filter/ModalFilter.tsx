@@ -101,22 +101,40 @@ export default function ModalFilter({ isOpen, setIsOpen }: IProps) {
       return false;
     })
   );
+  const convertQueryString = (facilities: any) => {
+    let queryString = "";
+    facilities.forEach((facility: any, index: number) => {
+      queryString += `facilities[${index}][facilityType]=${facility.facilityType}`;
 
+      facility.facilityDetails.forEach((detail: any, detailIndex: number) => {
+        queryString += `&facilities[${index}][facilityDetails][]=${detail}`;
+      });
+
+      if (index < facilities.length - 1) {
+        queryString += "&";
+      }
+    });
+
+    return queryString;
+  };
   const onSubmit = (values: any) => {
     const facilitiesValue = [];
     if (values.services.length !== 0) {
       facilitiesValue.push({
-        name: "devices",
+        facilityType: "devices",
+        facilityDetails: form.getValues("services"),
       });
     }
     if (values.safe.length !== 0) {
       facilitiesValue.push({
-        name: "safe",
+        facilityType: "safe",
+        facilityDetails: form.getValues("safe"),
       });
     }
     if (values.view.length !== 0) {
       facilitiesValue.push({
-        name: "view",
+        facilityType: "view",
+        facilityDetails: form.getValues("view"),
       });
     }
     // const queryParams = qs.stringify(facilitiesValue);
@@ -128,13 +146,14 @@ export default function ModalFilter({ isOpen, setIsOpen }: IProps) {
       countBedRoom: count.bedRoomCount,
       minPrice: values.minPrice,
       maxPrice: values.maxPrice,
-      facilities: qs.stringify(facilitiesValue),
+      facilities: convertQueryString(facilitiesValue),
     };
-    // console.log(data);
+
     router.push(
       `/searchFilter?bedCount=${data.bedCount}&countBedRoom=${data.countBedRoom}&countBathRoom=${data.countBathRoom}&facilities=${data.facilities}&minPrice=${data.minPrice}&maxPrice=${data.maxPrice}`
     );
   };
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>

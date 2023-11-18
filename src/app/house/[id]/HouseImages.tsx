@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 import styles from "@/styles/HouseDetail.module.css";
 const HouseImages = ({ imageData }: any) => {
-  console.log(imageData);
   return (
     <div className={`${styles.imageLayoutHouse} `}>
       <div

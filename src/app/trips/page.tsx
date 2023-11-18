@@ -2,7 +2,7 @@
 import Topbar from "@/components/layout/Topbar";
 import React from "react";
 import { ActiveLink } from "../account/page";
-import styles from "@/styles/Topbar.module.css";
+import styles from "@/styles/HouseDetail.module.css";
 import Image from "next/image";
 import { IconEllipsis, IconStar } from "@/components/icons";
 import HouseItem from "./HouseItem";
@@ -34,9 +34,9 @@ const TripPage = () => {
           <h1 className="font-semibold text-[32px] pt-[36px] pb-[24px]  border-[1px] border-none border-b-[#717171]">
             Chuyến đi
           </h1>
-          <div className="pt-[32px] pb-12 w-full h-full">
+          <div className={`pt-[32px] pb-12 w-full h-full`}>
             <div
-              className={`${tripsStyle.boxList} w-full max-h-screen h-full flex flex-col gap-y-4`}
+              className={`${tripsStyle.boxList} ${styles.scrollStyle} w-full max-h-screen h-full flex flex-col gap-y-4`}
             >
               {isLoading && <Skeleton></Skeleton>}
               {!isLoading &&

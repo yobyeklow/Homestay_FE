@@ -15,11 +15,12 @@ import "@/styles/dateRange.css";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import FilterButton from "@/components/filter/filterButton";
+import { addDays } from "date-fns";
 export default function Home() {
   const [showMap, setShowMap] = useState(false);
   const [filter, setFilter] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date(addDays(Date.now(), 1)),
+    endDate: new Date(addDays(Date.now(), 3)),
     numberOfGuests: 1,
     searchInput: "",
     page: 1,
@@ -89,7 +90,7 @@ export default function Home() {
               <div className="absolute top-[120%] z-40 -right-[23px]  bg-white">
                 <DateRangePicker
                   ranges={[selectionRanges]}
-                  minDate={new Date()}
+                  minDate={new Date(addDays(Date.now(), 1))}
                   rangeColors={["#45B39D"]}
                   onChange={handleSelectDate}
                 ></DateRangePicker>

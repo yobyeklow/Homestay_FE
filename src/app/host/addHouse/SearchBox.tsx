@@ -43,7 +43,7 @@ const SearchBox = ({
   form,
 }: ISearchBoxProps) => {
   const { isLoaded, loadError } = useGoogleMapsScript({
-    googleMapsApiKey: "AIzaSyBX-fPA9UOxtiedb7MwbxSIDAZRuiuL5Dg",
+    googleMapsApiKey: "AIzaSyDOFEEFLHg-B9IaoSFSriWKmNMS6G3pWAw",
     libraries,
   });
 
@@ -87,9 +87,9 @@ function ReadySearchBox({
       // const city = results
       const { lat, lng } = await getLatLng(results[0]);
       const city =
-        results[0].address_components[results[0].address_components.length - 2]
-          .short_name;
-
+        results[0].formatted_address.split(",")[
+          results[0].formatted_address.split(",").length - 2
+        ];
       onSelectAddress(address, lat, lng, city);
     } catch (error) {
       console.error(`Error:`, error);

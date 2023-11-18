@@ -19,6 +19,7 @@ const dataRooms = [
   },
 ];
 interface Room {
+  _id?: any;
   count: number;
   name: string;
   type: string;

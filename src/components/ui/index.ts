@@ -61,3 +61,5 @@ export {
 } from "./command";
 export { RadioGroup, RadioGroupItem } from "./radio-group";
 export { Checkbox } from "./checkbox";
+export { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tab";

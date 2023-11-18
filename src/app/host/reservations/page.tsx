@@ -31,7 +31,7 @@ const Reservations = () => {
             <Link href="/host/reservations">Đặt phòng</Link>
           </span>
           <span className="text-gray-500 font-semibold text-sm hover:bg-gray-100 hover:rounded-2xl py-3 px-4 cursor-pointer">
-            <Link href="/thongke">Thống kê</Link>
+            <Link href="/host/finance">Thống kê</Link>
           </span>
         </div>
       </Topbar>

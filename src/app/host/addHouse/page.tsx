@@ -117,9 +117,6 @@ const AddHousePage = () => {
       },
     }
   );
-  // const address = form.watch("locationID.streetAddress");
-  // const longtitude = form.watch("locationID.coordinate.y");
-  // const lattitude = form.watch("locationID.coordinate.x");
   const onSubmit = async (values: any) => {
     const imgFileList = Object.values(images);
     const imgURL = await imageUpload(imgFileList);
@@ -223,7 +220,11 @@ const AddHousePage = () => {
                       <FormLabel className="text-base font-bold">
                         Khung cảnh ngôi nhà{" "}
                       </FormLabel>
-                      <PreviewImage setImages={setImages}></PreviewImage>
+                      <PreviewImage
+                        imageBase={[]}
+                        imagesUpload={[]}
+                        setImages={setImages}
+                      ></PreviewImage>
                     </FormItem>
                   )}
                 ></FormField>

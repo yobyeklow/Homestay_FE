@@ -100,6 +100,7 @@ export default function SearchFilter() {
       }
     );
   };
+
   const { data, isLoading } = useFilteredHouses({
     page: 1,
     limit: 20,
