@@ -247,6 +247,7 @@ const BookingPage = () => {
       getClientSercret();
     }
   }, [adult, children]);
+  console.log(bookingData.checkInDate);
   if (isLoading) return <Skeleton></Skeleton>;
   return (
     <>

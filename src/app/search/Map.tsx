@@ -148,13 +148,13 @@ const ViewMap = ({ data, setDataBounds, location, setSecondTime }: IProps) => {
                   <Link href={`http://localhost:3000/house/${result._id}`}>
                     <div className="markerItem bg-white rounded-[20px] w-[280px]">
                       <div className="flex flex-col w-[280px]  h-full">
-                        <div className="itemImage relative w-[280px] h-[212px]">
+                        <div className="itemImage relative w-[280px] h-[212px] mb-2">
                           <Image
-                            src="/house.jpg"
+                            src={result?.images[0]?.url || "/house.jpg"}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             alt="house.png"
-                            className="object-cover w-full h-full"
+                            className="object-cover w-full h-full rounded-lg"
                           ></Image>
                         </div>
                         <div className="houseInfo flex-1">

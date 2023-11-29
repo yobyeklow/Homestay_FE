@@ -23,3 +23,4 @@ export { default as IconBeach } from "./iconBeach";
 export { default as IconFireDown } from "./iconFireFix";
 export { default as IconFirstAid } from "./iconFirstAid";
 export { default as IconFilter } from "./iconFilter";
+export { default as IconHeart } from "./iconHeart";

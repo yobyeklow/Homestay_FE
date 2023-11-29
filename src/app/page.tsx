@@ -18,6 +18,7 @@ import FilterButton from "@/components/filter/filterButton";
 import { addDays } from "date-fns";
 export default function Home() {
   const [showMap, setShowMap] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<any>([]);
   const [filter, setFilter] = useState({
     startDate: new Date(addDays(Date.now(), 1)),
     endDate: new Date(addDays(Date.now(), 3)),
@@ -69,7 +70,9 @@ export default function Home() {
       staleTime: 5 * 60 * 1000,
     }
   );
+
   if (isLoading) return <Skeleton></Skeleton>;
+  console.log(selectedItems);
   return (
     <div className="homePage relative">
       <Topbar>
@@ -146,7 +149,11 @@ export default function Home() {
           {!showMap ? (
             <div className={styles.homeStayList}>
               {data?.houses?.map((house: any) => (
-                <HomeStayItem key={house._id} house={house}></HomeStayItem>
+                <HomeStayItem
+                  setSelectedItems={setSelectedItems}
+                  key={house._id}
+                  house={house}
+                ></HomeStayItem>
               ))}
             </div>
           ) : (

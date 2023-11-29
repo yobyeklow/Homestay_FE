@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const HouseItem = ({ item }: any) => {
   return (
-    <Link className="w-fit" href={`/booking/customer/${item.houseID._id}`}>
+    <Link className="w-fit" href={`/booking/customer/${item._id}`}>
       <div className="boxItem w-fit h-[200px] max-w-[600px] bg-white p-3 rounded-lg shadow-lg flex gap-x-4">
         <div className="w-[200px] h-full relative">
           <Image

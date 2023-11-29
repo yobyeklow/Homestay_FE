@@ -124,7 +124,7 @@ export const columns: ColumnDef<House>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link className="w-full" href={`/booking/${bookingID}`}>
+              <Link className="w-full" href={`/booking/customer/${bookingID}`}>
                 Xem chi tiết
               </Link>
             </DropdownMenuItem>

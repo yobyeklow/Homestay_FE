@@ -2,7 +2,7 @@
 import { getBookingByID } from "@/apis/booking.apis";
 import Topbar from "@/components/layout/Topbar";
 import ModalRefund from "@/components/modal/ModalRefund";
-import { format } from "date-fns";
+import { format, formatDistanceStrict } from "date-fns";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 
@@ -36,6 +36,22 @@ const BillPage = () => {
   );
 
   if (isLoading) return <Skeleton></Skeleton>;
+  const checkInDate = data.booking.checkInDate;
+  // console.log(
+  //   formatDistanceStrict(checkInDate, new Date(Date.now()), {
+  //     unit: "day",
+  //     roundingMethod: "ceil",
+  //   })
+  // );
+  console.log(checkInDate);
+  const dateNow = new Date(Date.now()).toISOString().split("T")[0];
+  const count = parseInt(
+    formatDistanceStrict(new Date(checkInDate), new Date(dateNow), {
+      unit: "day",
+      roundingMethod: "ceil",
+    }).split(" ")[0]
+  );
+  console.log(data.booking);
   return (
     // <></>
     <>
@@ -101,17 +117,17 @@ const BillPage = () => {
                       <h2 className="font-bold text-xl text-green-500">
                         Thông tin homestay
                       </h2>
-                      {data.booking.bookingStatus === "Đã huỷ" && (
+                      {data?.booking?.bookingStatus === "Đã huỷ" && (
                         <span className="text-red-500 text-base font-bold">
                           {data.booking.bookingStatus}
                         </span>
                       )}
-                      {data.booking.bookingStatus === "Hoàn thành" && (
+                      {data?.booking?.bookingStatus === "Hoàn thành" && (
                         <span className="text-green-500 text-base font-bold">
                           {data.booking.bookingStatus}
                         </span>
                       )}
-                      {data.booking.bookingStatus === "Đang xử lý" && (
+                      {data?.booking?.bookingStatus === "Đang xử lý" && (
                         <span className="text-yellow-500 text-base font-bold">
                           {data.booking.bookingStatus}
                         </span>
@@ -141,10 +157,11 @@ const BillPage = () => {
                       </p>
                       <p className="font-bold">
                         Ngày trả phòng:{" "}
-                        {format(
+                        {/* {format(
                           new Date(data?.booking?.checkOutDate),
                           "dd MMM yyyy"
-                        )}
+                        )} */}
+                        {data?.booking?.checkOutDate}
                       </p>
                       <p className="font-bold">
                         Ngày thành toán:{" "}
@@ -155,7 +172,8 @@ const BillPage = () => {
                       </p>
                     </div>
                   </div>
-                  {data?.booking?.bookingStatus === "Đang tiến hành" ? (
+                  {count > 0 &&
+                  data?.booking?.bookingStatus === "Đang xử lý" ? (
                     <button
                       onClick={() => setIsOpen(true)}
                       className="my-5 px-4 py-3 border-[1px] border-red-500 bg-red-400 hover:bg-red-500 rounded-lg font-bold text-white"
