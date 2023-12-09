@@ -46,7 +46,9 @@ export const cancelBooking = async (
 ) => {
   const response = await authApi.patch(
     `/api/booking/cancel/${bookingID}/${paymentID}`,
-    reasonData
+    {
+      reasonRefund: reasonData,
+    }
   );
   return response.data;
 };

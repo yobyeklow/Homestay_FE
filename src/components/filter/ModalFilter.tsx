@@ -79,9 +79,9 @@ export default function ModalFilter({ isOpen, setIsOpen }: IProps) {
   }
   const router = useRouter();
   const [count, setCount] = useState({
-    bedCount: 1,
-    bedRoomCount: 1,
-    bathRoomCount: 1,
+    bedCount: 0,
+    bedRoomCount: 0,
+    bathRoomCount: 0,
   });
   const form = useForm({
     defaultValues: {
@@ -107,7 +107,7 @@ export default function ModalFilter({ isOpen, setIsOpen }: IProps) {
       queryString += `facilities[${index}][facilityType]=${facility.facilityType}`;
 
       facility.facilityDetails.forEach((detail: any, detailIndex: number) => {
-        queryString += `&facilities[${index}][facilityDetails][]=${detail}`;
+        queryString += `&facilities=facilities[${index}][facilityDetails][${detailIndex}]=${detail}`;
       });
 
       if (index < facilities.length - 1) {

@@ -9,12 +9,12 @@ interface IProps {
   imagesUpload?: any;
 }
 const ImageComponent = ({ imageBase, imagesUpload, setImages }: IProps) => {
-  const [imagesData, setImagesData] = useState<any>(imageBase);
+  const [imagesData, setImagesData] = useState<any[]>(imageBase);
   const [uploadData, setUploadData] = useState<any>(imagesUpload);
   const imageInput = useRef(null);
   useEffect(() => {
     return () => {
-      imagesData && URL.revokeObjectURL(imagesData);
+      imagesData && imagesData.forEach((image) => URL.revokeObjectURL(image));
     };
   }, [imagesData]);
   const addImage = (images: any, e: any) => {

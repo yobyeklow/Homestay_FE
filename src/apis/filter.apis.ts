@@ -47,7 +47,7 @@ export const filterHouseByFilter = async (
       bedCount ? bedCount : ""
     }&countBedRoom=${bedRoom ? bedRoom : ""}&countBathRoom=${
       bathRoom ? bathRoom : ""
-    }&facilities=${facilities ? facilities : ""}&minPrice=${
+    }&${facilities ? facilities : ""}&minPrice=${
       minPrice ? minPrice : ""
     }&maxPrice=${maxPrice ? maxPrice : ""}`
   );

@@ -15,6 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { deleteHouseByID } from "@/apis/house.apis";
 import { toast } from "react-toastify";
+import axios from "@/utils/axios";
 
 export type House = {
   houseID: string;
@@ -26,6 +27,7 @@ export type House = {
   location: string;
   listing: any;
   image: string;
+  calenderID: any;
 };
 
 export const columns: ColumnDef<House>[] = [
@@ -85,8 +87,44 @@ export const columns: ColumnDef<House>[] = [
     header: "Đăng tải",
     cell: ({ row }) => {
       const status = row.getValue("status");
+      const houseID = row.original.houseID;
+      const calendarID = row.original.calenderID;
       const handleChangeStatus = async () => {
-        console.log("Yes");
+        try {
+          const response = await axios.patch(
+            `/api/house/update-house-stay/${houseID}`,
+            {
+              calendar: {
+                _id: calendarID._id,
+                available: true,
+              },
+            }
+          );
+          if (response) {
+            // console.log("Đã đăng tải thành công");
+            toast.success("Đã đăng tải thành công", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }
+        } catch (err) {
+          toast.success("Đã xảy ra lỗi!!!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       };
       return (
         <div className="btn">
@@ -189,6 +227,16 @@ export const columns: ColumnDef<House>[] = [
             });
           }
         } catch (err) {
+          toast.error("Đã xảy ra lỗi", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           console.log(err);
         }
       };

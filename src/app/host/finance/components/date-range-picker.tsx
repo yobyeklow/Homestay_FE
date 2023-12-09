@@ -14,15 +14,13 @@ import {
   Calendar,
   Button,
 } from "@/components/ui";
-export function CalendarDateRangePicker({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const month = new Date().getMonth();
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2023, month, 1),
-    to: addDays(new Date(2023, month, 20), 20),
-  });
-
+interface IProps {
+  className?: any;
+  date: any;
+  setDate: any;
+}
+export function CalendarDateRangePicker({ className, date, setDate }: IProps) {
+  // console.log(date);
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>

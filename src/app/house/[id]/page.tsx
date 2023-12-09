@@ -232,7 +232,7 @@ const HouseDetailPage = () => {
                       ></Image>
                     </div>
                     <div className="flex flex-col">
-                      <p className="font-bold text-base">Rachel</p>
+                      <p className="font-bold text-base">Rachel Chimo</p>
                       <div className="ratingPoint flex items-center gap-x-[6px]">
                         <div className="totalPoint flex items-center">
                           <IconPoint className="w-[11px] h-[11px]"></IconPoint>
@@ -264,7 +264,7 @@ const HouseDetailPage = () => {
                       ></Image>
                     </div>
                     <div className="flex flex-col">
-                      <p className="font-bold text-base">Rachel</p>
+                      <p className="font-bold text-base">Heric San</p>
                       <div className="ratingPoint flex items-center gap-x-[6px]">
                         <div className="totalPoint flex items-center">
                           <IconPoint className="w-[11px] h-[11px]"></IconPoint>

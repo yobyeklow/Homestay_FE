@@ -5,7 +5,7 @@ import Topbar from "@/components/layout/Topbar";
 import MapButton from "@/components/map/MapButton";
 import styles from "@/styles/Home.module.css";
 import GoogleMapView from "@/components/map/GoogleMapView";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
 import "react-date-range/dist/styles.css";
@@ -28,6 +28,8 @@ interface ISearchProps {
   maxPrice: number | null;
 }
 export default function SearchFilter() {
+  const router = useRouter();
+  const params = useParams();
   const searchParams = useSearchParams();
   // console.log(query);
   const [showMap, setShowMap] = useState(false);
@@ -63,11 +65,11 @@ export default function SearchFilter() {
     countBedRoom: parseInt(searchParams.get("countBedRoom") as string) || null,
     countBathRoom:
       parseInt(searchParams.get("countBathRoom") as string) || null,
-    facilities: searchParams.get("facilities") || null,
+    facilities: searchParams.getAll("facilities") || null,
     minPrice: parseInt(searchParams.get("minPrice") as string) || null,
     maxPrice: parseInt(searchParams.get("maxPrice") as string) || null,
   };
-
+  // console.log(dataParams);
   const useFilteredHouses = ({
     page,
     limit,
@@ -93,32 +95,35 @@ export default function SearchFilter() {
         );
       },
       {
-        retry: 1,
+        // retry: 1,
         cacheTime: 10 * 60 * 1000,
         staleTime: 5 * 60 * 1000,
         // enabled: handle,
       }
     );
   };
-
+  const finalString = dataParams.facilities.join("&");
+  // console.log(finalString);
   const { data, isLoading } = useFilteredHouses({
     page: 1,
     limit: 20,
     bedCount: dataParams.bedCount,
     countBedRoom: "",
-    // dataParams.countBedRoom === 1 ? null : dataParams.countBedRoom,
     countBathRoom: "",
-    //   dataParams.countBathRoom === 1 ? null : dataParams.countBathRoom,
-    facilities: dataParams.facilities,
+    facilities: finalString,
     minPrice: dataParams.minPrice,
     maxPrice: dataParams.maxPrice,
   });
+  useEffect(() => {
+    if (data) {
+      window.location.reload();
+    }
+  }, []);
   if (isLoading) return <Skeleton></Skeleton>;
-
   return (
     <div className="homePage relative">
       <Topbar></Topbar>
-      {!showMap && <FilterButton></FilterButton>}
+
       {data && (
         <main className={`${styles.homePageContent} `}>
           {!showMap ? (

@@ -17,8 +17,60 @@ import { Overview } from "./components/overview";
 import { RecentSales } from "./components/recent-sale";
 import Topbar from "@/components/layout/Topbar";
 import Link from "next/link";
+import { useQuery } from "react-query";
+import { getRevenueByDate } from "@/apis/revenue.apis";
+import { useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
+import Skeleton from "react-loading-skeleton";
+import { useLastData } from "@/utils/useLastData";
+import { useDebounce } from "@uidotdev/usehooks";
 
 export default function FinancePage() {
+  // const [customerID,setCustomerID]= useState("");
+  // useEffect(()=>{
+  //   if(localStorage.getItem("customerID")){
+  //     const id = localStorage.getItem("customerID");
+  //     setCustomerID(id);
+  //   }
+  // },[])
+  const customerID = localStorage.getItem("customerID");
+  const month = new Date().getMonth();
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(2023, month, 1),
+    to: addDays(new Date(2023, month, 20), 20),
+  });
+  const lastData = useDebounce(date, 1000);
+  // console.log(lastData);
+  useEffect(() => {
+    refetch();
+  }, [lastData?.from, lastData?.to]);
+  const { data, isLoading, refetch } = useQuery<any>(
+    ["RevenueDate"],
+    async () => {
+      const response = getRevenueByDate(
+        customerID,
+        lastData?.from?.toISOString(),
+        lastData?.to?.toISOString()
+      );
+      if (response) {
+        return response;
+      }
+      return null;
+    },
+    {
+      retry: 1,
+      cacheTime: 10 * 60 * 1000,
+      staleTime: 5 * 60 * 1000,
+    }
+  );
+  const config = {
+    style: "currency",
+    currency: "VND",
+    maximumFractionDigits: 9,
+  };
+  if (isLoading) return <Skeleton></Skeleton>;
+  // console.log(data);
   return (
     <>
       <Topbar>
@@ -58,8 +110,8 @@ export default function FinancePage() {
               Thống kê tài chính
             </h2>
             <div className="flex items-center space-x-2">
-              <CalendarDateRangePicker />
-              <Button>Download</Button>
+              <CalendarDateRangePicker date={date} setDate={setDate} />
+              {/* <Button>Download</Button> */}
             </div>
           </div>
           <Tabs defaultValue="overview" className="space-y-4">
@@ -84,7 +136,11 @@ export default function FinancePage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
+                    <div className="text-2xl font-bold">
+                      {new Intl.NumberFormat("vi-VN", config).format(
+                        data?.sumCompletedRevenue
+                      )}
+                    </div>
                     {/* <p className="text-xs text-muted-foreground">
                       +20.1% from last month
                     </p> */}
@@ -111,7 +167,9 @@ export default function FinancePage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+2350</div>
+                    <div className="text-2xl font-bold">
+                      +{data?.completedBookings}
+                    </div>
                     {/* <p className="text-xs text-muted-foreground">
                       +180.1% from last month
                     </p> */}
@@ -137,7 +195,9 @@ export default function FinancePage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
+                    <div className="text-2xl font-bold">
+                      +{data?.canceledBookings}
+                    </div>
                     {/* <p className="text-xs text-muted-foreground">
                       +19% from last month
                     </p> */}
@@ -180,13 +240,17 @@ export default function FinancePage() {
                 </Card>
                 <Card className="col-span-3">
                   <CardHeader>
-                    <CardTitle>Nhà/phòng cho thuê gần đây</CardTitle>
+                    <CardTitle>Lượt khách thuê gần đây</CardTitle>
                     <CardDescription>
-                      Bạn đã cho thuê 4 nhà/phòng trong tháng này.
+                      Khách hàng thuê nhà/phòng trong tháng này.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <RecentSales />
+                    {data?.customers ? (
+                      <RecentSales guests={data?.customers} />
+                    ) : (
+                      <Skeleton></Skeleton>
+                    )}
                   </CardContent>
                 </Card>
               </div>

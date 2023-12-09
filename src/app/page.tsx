@@ -16,6 +16,7 @@ import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import FilterButton from "@/components/filter/filterButton";
 import { addDays } from "date-fns";
+import HomeStayList from "@/components/homestay/HomeStayList";
 export default function Home() {
   const [showMap, setShowMap] = useState(false);
   const [selectedItems, setSelectedItems] = useState<any>([]);
@@ -72,7 +73,6 @@ export default function Home() {
   );
 
   if (isLoading) return <Skeleton></Skeleton>;
-  console.log(selectedItems);
   return (
     <div className="homePage relative">
       <Topbar>
@@ -148,13 +148,7 @@ export default function Home() {
         <main className={`${styles.homePageContent} `}>
           {!showMap ? (
             <div className={styles.homeStayList}>
-              {data?.houses?.map((house: any) => (
-                <HomeStayItem
-                  setSelectedItems={setSelectedItems}
-                  key={house._id}
-                  house={house}
-                ></HomeStayItem>
-              ))}
+              <HomeStayList houses={data.houses}></HomeStayList>
             </div>
           ) : (
             <GoogleMapView></GoogleMapView>

@@ -7,7 +7,7 @@ export const getUserByID = async (id: string | null) => {
   return response.data;
 };
 export const getBookingByCustomerID = async (id: string | null) => {
-  const response = await axios.get<IBooking>(
+  const response = await axios.get<IBooking | null>(
     `/api/booking/customer/get-all/${id}`
   );
   return response.data;

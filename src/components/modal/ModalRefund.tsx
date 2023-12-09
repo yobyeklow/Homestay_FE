@@ -59,10 +59,11 @@ export default function ModalRefund({
     }
   );
   const handleSubmit = (values: any) => {
+    console.log(values);
     mutate({
       bookingID: bookingData._id,
       paymentID: bookingData.paymentID._id,
-      reasonData: values,
+      reasonData: values.refundReason,
     });
   };
   const schema = yup.object({

@@ -2,7 +2,7 @@
 import HomeStayItem from "@/components/homestay/HomeStayItem";
 import { IconSearch, IconUser } from "@/components/icons";
 import Topbar from "@/components/layout/Topbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getCenter, getCenterOfBounds } from "geolib";
 import { DateRangePicker } from "react-date-range";
@@ -190,16 +190,20 @@ export default function SearchPage() {
   const lastLocationList = locationList?.map((item: any) => {
     return {
       latitude: item.x,
-      longitude: item.y,
+      longitude: item.y - 0.001,
     };
   });
 
   const lastData = useLastData(filterResult);
   const lastDataNearHouse = useLastData(nearHouses);
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, []);
   if (isLoading) return <Skeleton></Skeleton>;
   const centerLocation = getCenterOfBounds(lastLocationList);
   // console.log(centerLocation);
   // console.log(getCenterOfBounds(lastLocationList));
+
   return (
     <div className="homePage relative">
       <Topbar className="mx-6">

@@ -11,6 +11,7 @@ import Skeleton from "react-loading-skeleton";
 import { useQuery } from "react-query";
 
 const BillPage = () => {
+  const router = useRouter();
   const formatCurrency = (amount: number) => {
     return amount?.toLocaleString("vi-VN", {
       style: "currency",
@@ -36,14 +37,10 @@ const BillPage = () => {
   );
 
   if (isLoading) return <Skeleton></Skeleton>;
-  const checkInDate = data.booking.checkInDate;
-  // console.log(
-  //   formatDistanceStrict(checkInDate, new Date(Date.now()), {
-  //     unit: "day",
-  //     roundingMethod: "ceil",
-  //   })
-  // );
-  console.log(checkInDate);
+  const checkInDate = new Date(data?.booking?.checkInDate)
+    .toISOString()
+    .split("T")[0];
+
   const dateNow = new Date(Date.now()).toISOString().split("T")[0];
   const count = parseInt(
     formatDistanceStrict(new Date(checkInDate), new Date(dateNow), {
@@ -51,16 +48,22 @@ const BillPage = () => {
       roundingMethod: "ceil",
     }).split(" ")[0]
   );
-  console.log(data.booking);
+  console.log(count);
   return (
     // <></>
     <>
       <Topbar></Topbar>
       <main className=" w-full h-full bg-white mt-5">
         <div className="w-full max-w-[1440px] h-full mx-auto">
-          <h1 className="text-3xl font-bold mb-5 mt-10">
-            Hoá đơn đặt phòng XXXX
-          </h1>
+          <div className="flex items-center gap-x-2  mb-5 mt-10">
+            <span
+              onClick={() => router.push("/trips")}
+              className="font-bold text-2xl cursor-pointer"
+            >{`<`}</span>
+            <h1 className="text-3xl font-bold">
+              Hoá đơn đặt phòng {data?.booking?._id}
+            </h1>
+          </div>
           <div className="w-full h-full flex justify-between">
             <div className="left flex flex-col gap-y-4">
               <div className="customerInfo">
@@ -104,7 +107,10 @@ const BillPage = () => {
               <div className="w-[550px] bg-white shadow-lg rounded-lg">
                 <div className="image relative w-full h-[250px] rounded-t-lg">
                   <Image
-                    src="/daLatHouse1.png"
+                    src={
+                      data?.booking?.houseID?.images[0]?.url ||
+                      "/daLatHouse1.png"
+                    }
                     alt="image.png"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -151,17 +157,17 @@ const BillPage = () => {
                       <p className="font-bold">
                         Ngày nhận phòng:{" "}
                         {format(
-                          new Date(data?.booking?.checkInDate),
+                          new Date(data?.booking?.checkInDate?.split("T")[0]),
                           "dd MMM yyyy"
                         )}
                       </p>
                       <p className="font-bold">
                         Ngày trả phòng:{" "}
-                        {/* {format(
-                          new Date(data?.booking?.checkOutDate),
+                        {format(
+                          new Date(data?.booking?.checkOutDate?.split("T")[0]),
                           "dd MMM yyyy"
-                        )} */}
-                        {data?.booking?.checkOutDate}
+                        )}
+                        {/* {data?.booking?.checkOutDate} */}
                       </p>
                       <p className="font-bold">
                         Ngày thành toán:{" "}

@@ -17,7 +17,7 @@ const BathRoomCount = ({ dataArray, setCount, count }: any) => {
   };
   return (
     <div className="flex flex-col gap-y-3">
-      <h3 className="text-base text-[#222222] font-normal">Phòng ngủ</h3>
+      <h3 className="text-base text-[#222222] font-normal">Phòng tắm</h3>
       <div className="button-list flex items-center gap-x-4">
         {dataArray.map((item: any, index: any) => {
           return (

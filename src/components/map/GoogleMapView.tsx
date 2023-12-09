@@ -51,7 +51,6 @@ const GoogleMapView = () => {
     }
   );
   const lastData = useLastData(data);
-  console.log(lastData);
 
   return (
     <div className=" max-h-screen grid grid-cols-3">

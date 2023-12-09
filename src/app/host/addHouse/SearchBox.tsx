@@ -43,7 +43,7 @@ const SearchBox = ({
   form,
 }: ISearchBoxProps) => {
   const { isLoaded, loadError } = useGoogleMapsScript({
-    googleMapsApiKey: "AIzaSyDOFEEFLHg-B9IaoSFSriWKmNMS6G3pWAw",
+    googleMapsApiKey: "AIzaSyCY0hWagSWdphouQoe5o0-ytMfkw_ZiFro",
     libraries,
   });
 

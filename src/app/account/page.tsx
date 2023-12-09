@@ -63,7 +63,6 @@ const AccountPage = () => {
   const schema = yup.object({
     name: yup
       .string()
-      .required("Vui lòng nhập tên")
       .trim()
       .matches(
         /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/,
@@ -71,19 +70,15 @@ const AccountPage = () => {
       ),
     password: yup
       .string()
-      .required("Vui lòng nhập mật khẩu")
       .matches(
         /^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/,
         "Mật khẩu nên có ít nhất 10 kí tự, 1 chữ hoa, 1 chữ thường và 1 số"
       )
       .trim(),
-    email: yup
-      .string()
-      .required("Vui lòng nhập email")
-      .email("Email không đúng định dạng"),
+    email: yup.string().email("Email không đúng định dạng"),
     phoneNumber: yup
       .string()
-      .required("Vui long điền số điện thoại")
+
       .trim()
       .matches(
         /^(0[23456789]|01[2689]|08)[0-9]{8}$/,

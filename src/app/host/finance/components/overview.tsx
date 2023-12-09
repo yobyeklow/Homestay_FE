@@ -1,8 +1,11 @@
 "use client";
 
+import axios from "@/utils/axios";
+import Skeleton from "react-loading-skeleton";
+import { useQuery } from "react-query";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const data = [
+const calendar = [
   {
     name: "Jan",
     total: Math.floor(Math.random() * 5000) + 1000,
@@ -54,9 +57,25 @@ const data = [
 ];
 
 export function Overview() {
+  const customerID = localStorage.getItem("customerID");
+  const { data, isLoading } = useQuery({
+    queryKey: ["revenueChart"],
+    queryFn: async () => {
+      const response = await axios.get(
+        `/api/revenue/get-by-year/${customerID}/2023`
+      );
+      return response.data;
+    },
+  });
+  if (isLoading) <Skeleton width="100%" height={350}></Skeleton>;
+  const lastData = data?.map((item: number, index: number) => {
+    calendar[index]["total"] = item;
+    return calendar[index];
+  });
+  // console.log(lastData);
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
+      <BarChart data={lastData}>
         <XAxis
           dataKey="name"
           stroke="#888888"

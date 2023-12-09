@@ -1,7 +1,7 @@
 "use client";
 import { IconSearch } from "@/components/icons";
 import Topbar from "@/components/layout/Topbar";
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "@/components/table/Table";
 import Link from "next/link";
 import { useQuery } from "react-query";
@@ -27,8 +27,12 @@ const HostPage = () => {
       staleTime: 5 * 60 * 1000,
     }
   );
+  useEffect(() => {
+    if (houseByHostList) {
+      window.location.reload();
+    }
+  }, []);
   if (isLoading) <Skeleton></Skeleton>;
-
   return (
     <div className="hostPage">
       <Topbar>

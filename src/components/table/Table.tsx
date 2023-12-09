@@ -8,6 +8,7 @@ const TableHouse = ({ houseByHostList }: any) => {
     const dataItem = {
       houseID: item._id,
       name: item.title,
+      calenderID: item.calenderID,
       status: item.calenderID.available ? "Đã đăng" : "Chưa đăng",
       bedRoom: item.roomID[0].count,
 

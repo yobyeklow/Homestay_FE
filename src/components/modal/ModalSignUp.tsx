@@ -33,6 +33,7 @@ import {
 import { useMutation } from "react-query";
 import { ICustomer } from "@/types/user.type";
 import { IconCalendar } from "../icons";
+import axios from "@/utils/axios";
 
 type TModalSign = {
   isOpen: boolean;
@@ -46,13 +47,21 @@ type Inputs = {
 };
 const ModalSignUp = ({ isOpen, setIsOpen }: TModalSign) => {
   const [isContinue, setIsContinue] = useState(false);
+  const [errorLogin, setError] = useState("");
   const { mutate } = useMutation(
-    (userData: ICustomer) => signUpUser(userData),
+    async (userData: any) => {
+      const response = await axios.post(
+        `/api/auth/customer/register`,
+        userData
+      );
+      if (response) return response.data;
+    },
     {
       onSuccess(data) {
+        console.log(data);
         toast.success("Đăng ký tài khoản thành công!", {
-          position: "bottom-right",
-          autoClose: 5000,
+          position: "top-right",
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -63,7 +72,17 @@ const ModalSignUp = ({ isOpen, setIsOpen }: TModalSign) => {
         setIsOpen(false);
       },
       onError(err: any) {
-        console.log(err);
+        toast.error(err?.response?.data?.msg, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setIsContinue(false);
       },
     }
   );
@@ -74,11 +93,12 @@ const ModalSignUp = ({ isOpen, setIsOpen }: TModalSign) => {
       password: "",
       name: "",
       gender: "",
-      birthDay: new Date(Date.now()),
+      birthDay: new Date(2001, 11, 15),
     },
   });
 
   const onSubmit = (data: any) => {
+    // console.log(data);
     mutate(data);
   };
 
@@ -125,7 +145,9 @@ const ModalSignUp = ({ isOpen, setIsOpen }: TModalSign) => {
                   </p>
                 </div>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500 text-center"></p>
+                  {errorLogin !== "" && (
+                    <span className="text-red-500">{`${errorLogin}`}</span>
+                  )}
                 </div>
 
                 <Form {...form}>
@@ -305,14 +327,25 @@ const ModalSignUp = ({ isOpen, setIsOpen }: TModalSign) => {
                             </FormItem>
                           )}
                         />
-                        <div className="w-full text-center my-2 ">
-                          <button
-                            type="submit"
-                            onClick={() => setIsContinue(true)}
-                            className="mt-6 py-[14px] px-6 bg-gradient-to-r from-[#76b852]  to-[#8DC26F] text-white font-semibold rounded-[5px] max-w-[150px] w-full text-[15px]"
-                          >
-                            Đăng ký
-                          </button>
+                        <div className="flex items-center justify-center">
+                          <div className="w-full text-center my-2 ">
+                            <button
+                              // type="button"
+                              onClick={() => setIsContinue(false)}
+                              className="mt-6 py-[14px] px-6 bg-gradient-to-r from-[#005C97]  to-[#363795] text-white font-semibold rounded-[5px] max-w-[150px] w-full text-[15px]"
+                            >
+                              Quay lại
+                            </button>
+                          </div>
+                          <div className="w-full text-center my-2 ">
+                            <button
+                              type="submit"
+                              onClick={() => setIsContinue(true)}
+                              className="mt-6 py-[14px] px-6 bg-gradient-to-r from-[#76b852]  to-[#8DC26F] text-white font-semibold rounded-[5px] max-w-[150px] w-full text-[15px]"
+                            >
+                              Đăng ký
+                            </button>
+                          </div>
                         </div>
                       </>
                     )}

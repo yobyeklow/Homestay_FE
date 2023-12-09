@@ -27,7 +27,7 @@ const CreateHostPage = () => {
 
   const { mutate } = useMutation((id: string) => becomeHost(id), {
     onSuccess(data: any) {
-      router.push("http://localhost:3000/host/addHouse/location");
+      router.push("http://localhost:3000/host/addHouse/");
     },
     onError(err: any) {
       toast.error(err?.data?.msg, {
@@ -55,7 +55,7 @@ const CreateHostPage = () => {
           </h1>
           <button
             onClick={handleSubmit}
-            className="font-bold py-4 shadow-lg px-8 text-xl text-white bg-blue-400 rounded-xl mt-10 text-center"
+            className="font-bold py-4 hover:shadow-inner hover:shadow-[#2980B9] shadow-md px-8 text-xl text-white bg-blue-400 rounded-xl mt-10 text-center"
           >
             Đăng ký cho thuê
           </button>

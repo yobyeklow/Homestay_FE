@@ -32,7 +32,7 @@ export const signUpUser = async (user: ICustomer) => {
     "/api/auth/customer/register",
     user
   );
-  return response.data;
+  return response;
 };
 export const loginUserFn = async (user: LoginInput) => {
   const response = await authApi.post<ICustomer>(

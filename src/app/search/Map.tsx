@@ -1,16 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Map, { ViewState, Marker, Popup } from "react-map-gl";
-import ReactMapGL from "react-map-gl";
-import styles from "@/styles/MapBox.module.css";
-import getCenter from "geolib/es/getCenter";
 import Image from "next/image";
-import { useLocalState } from "@/utils/useLocalState";
+
 import "@/styles/mapBox.css";
 import Link from "next/link";
-import { useLastData } from "@/utils/useLastData";
-import { useQuery } from "react-query";
-import axios from "@/utils/axios";
+
 interface IProps {
   data: any;
   location: any;
@@ -40,7 +35,7 @@ const ViewMap = ({ data, setDataBounds, location, setSecondTime }: IProps) => {
     longitude: location.longitude,
     width: "100%",
     height: "100vh",
-    zoom: 17,
+    zoom: 12,
   });
   // const {
   //   data: nearHouses,
@@ -103,7 +98,7 @@ const ViewMap = ({ data, setDataBounds, location, setSecondTime }: IProps) => {
           setSecondTime(true);
         }}
         ref={(instance) => (mapRef.current = instance)}
-        minZoom={5}
+        // minZoom={5}
         maxZoom={20}
         onLoad={() => {
           if (mapRef.current) {

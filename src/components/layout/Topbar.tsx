@@ -6,6 +6,8 @@ import { IconMenu } from "../icons";
 import useClickOutside from "../../hooks/useClickOutside";
 import styles from "@/styles/Topbar.module.css";
 import { SignIn, SignUp } from "../modal/";
+import { useQuery } from "react-query";
+import axios from "@/utils/axios";
 
 const Topbar = ({ children, token, className }: any) => {
   const { show, setShow, nodeRef } = useClickOutside();
@@ -16,6 +18,14 @@ const Topbar = ({ children, token, className }: any) => {
     localStorage.removeItem("customerID");
     setShow(false);
   };
+  const { data, isLoading } = useQuery({
+    queryKey: ["customerAvatar"],
+    queryFn: async () => {
+      const response = await axios.get(`/api/auth/customer/${customerID}`);
+      return response.data;
+    },
+  });
+
   return (
     <div>
       <div className=" w-full  border-0 border-b-[1px] border-b-[#dddddd]">
@@ -36,13 +46,15 @@ const Topbar = ({ children, token, className }: any) => {
           </div>
           {children}
           <div className="flex flex-[1_0_140px]">
-            <div className="flex items-center gap-x-5 justify-end w-full">
-              <Link
-                href="/hosting"
-                className="font-medium text-[rgb(34,_34,_34] text-sm hover:bg-[#dddddd] hover:bg-opacity-30 hover:rounded-[40px] hover:py-2 px-3"
-              >
-                Cho thuê chổ ở
-              </Link>
+            <div className="flex items-center lg:gap-x-5 gap-x-2 justify-end w-full">
+              {data?.customer?.role !== "host" && (
+                <Link
+                  href="/host/becomeHost"
+                  className="font-medium text-[rgb(34,_34,_34] lg:text-sm text-xs hover:bg-[#dddddd] hover:bg-opacity-30 hover:rounded-[40px] hover:py-2 px-3"
+                >
+                  Cho thuê chổ ở
+                </Link>
+              )}
               <div ref={nodeRef} className="relative">
                 <div
                   onClick={() => setShow(!show)}
@@ -82,7 +94,7 @@ const Topbar = ({ children, token, className }: any) => {
                   </div>
                 )}
                 {show && customerID && (
-                  <div className="z-10 absolute rounded-xl translate-y-3 top-[100%] right-0 shadow-[0_2px_16px_rgba(0,0,0,0.12)]">
+                  <div className="z-20 absolute rounded-xl translate-y-3 top-[100%] right-0 shadow-[0_2px_16px_rgba(0,0,0,0.12)]">
                     <div
                       className={`${styles.dropDownSign} py-2 bg-[#ffffff] min-w-[250px] rounded-xl`}
                     >
@@ -90,7 +102,7 @@ const Topbar = ({ children, token, className }: any) => {
                         <p>Tài khoản</p>
                       </Link>
                       <Link href="/host">
-                        <p>Cho thuê chổ ở</p>
+                        <p>Quản lý cho thuê</p>
                       </Link>
                       <div className={styles.lineBreak}></div>
                       <Link href="/trips">

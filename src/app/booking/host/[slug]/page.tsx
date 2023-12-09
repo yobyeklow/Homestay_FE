@@ -11,6 +11,7 @@ import Skeleton from "react-loading-skeleton";
 import { useQuery } from "react-query";
 
 const BillPage = () => {
+  const router = useRouter();
   const formatCurrency = (amount: number) => {
     return amount?.toLocaleString("vi-VN", {
       style: "currency",
@@ -35,16 +36,22 @@ const BillPage = () => {
     }
   );
   if (isLoading) return <Skeleton></Skeleton>;
-  console.log(data.booking.bookingStatus);
+
   return (
     // <></>
     <>
       <Topbar></Topbar>
       <main className=" w-full h-full bg-white mt-5">
         <div className="w-full max-w-[1440px] h-full mx-auto">
-          <h1 className="text-3xl font-bold mb-5 mt-10">
-            Hoá đơn đặt phòng XXXX
-          </h1>
+          <div className="flex items-center gap-x-2  mb-5 mt-10">
+            <span
+              onClick={() => router.push("/host/reservations")}
+              className="font-bold text-2xl cursor-pointer"
+            >{`<`}</span>
+            <h1 className="text-3xl font-bold">
+              Hoá đơn đặt phòng {data?.booking?._id}
+            </h1>
+          </div>
           <div className="w-full h-full flex justify-between">
             <div className="left flex flex-col gap-y-4">
               <div className="customerInfo">
@@ -156,10 +163,10 @@ const BillPage = () => {
                     </div>
                   </div>
                   {data?.booking?.bookingStatus === "Đã huỷ" && (
-                    <div className="flex items-center gap-x-2">
+                    <div className="flex items-center gap-x-2 pb-2">
                       <p className="text-sm font-bold my-3 ">Lý do huỷ:</p>
-                      <span className="font-bold text-sm text-red-500">
-                        Bận việc đột xuất
+                      <span className="font-bold text-base text-red-500">
+                        {data?.booking?.refundID?.reasonRefund}
                       </span>
                     </div>
                   )}

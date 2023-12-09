@@ -52,8 +52,8 @@ const ViewMap = ({ data, setDataBounds }: IProps) => {
           setViewPort(evt.viewState);
         }}
         ref={(instance) => (mapRef.current = instance)}
-        minZoom={5}
         maxZoom={20}
+        minZoom={13}
         onLoad={() => {
           if (mapRef.current) {
             const bounds = mapRef.current.getMap().getBounds();
@@ -98,7 +98,7 @@ const ViewMap = ({ data, setDataBounds }: IProps) => {
                       <div className="flex flex-col w-[280px]  h-full">
                         <div className="itemImage relative w-[280px] h-[212px]">
                           <Image
-                            src="/house.jpg"
+                            src={result?.images[0]?.url || `/house.jpg`}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             alt="house.png"

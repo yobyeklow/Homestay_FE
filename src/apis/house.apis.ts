@@ -38,3 +38,11 @@ export const deleteHouseByID = async (
   const response = await axios.delete(`/api/house/delete/${hostID}/${houseID}`);
   return response.data;
 };
+export const getFavoritesHouse = async (favorites: any) => {
+  const copyArray = JSON.parse(favorites);
+  const paramsString = copyArray
+    .map((value: string, index: number) => `favorites[${index}]=${value}`)
+    .join("&");
+  const response = await axios.get(`/api/house/favorites?${paramsString}`);
+  return response.data;
+};

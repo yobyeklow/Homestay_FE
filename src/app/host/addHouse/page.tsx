@@ -31,7 +31,7 @@ import { useRouter } from "next/navigation";
 const AddHousePage = () => {
   const customerID = localStorage.getItem("customerID");
   const schema = yup.object();
-  const [images, setImages] = useState<any>(null);
+  const [images, setImages] = useState<any[]>([]);
   const form = useForm({
     // resolver: yupResolver();
     defaultValues: {
@@ -102,7 +102,7 @@ const AddHousePage = () => {
       onSuccess(announce: any) {
         toast(announce?.msg, {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -113,7 +113,16 @@ const AddHousePage = () => {
         router.push("/host");
       },
       onError(err: any) {
-        console.log(err);
+        toast.error(err?.data?.msg, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       },
     }
   );
